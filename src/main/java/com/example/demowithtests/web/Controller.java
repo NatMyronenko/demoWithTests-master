@@ -11,6 +11,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -152,5 +156,34 @@ public class Controller implements ResponseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeAllUsers() {
         service.removeAll();
+    }
+
+    @GetMapping("/users/p")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Employee> getPage(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "5") int size
+    ) {
+        Pageable paging = PageRequest.of(page, size);
+        return service.getAllWithPagination(paging);
+    }
+    @GetMapping("/users/country")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Employee> findByCountry(@RequestParam(required = false) String country,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "3") int size,
+                                        @RequestParam(defaultValue = "") List<String> sortList,
+                                        @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
+        //Pageable paging = PageRequest.of(page, size);
+        //Pageable paging = PageRequest.of(page, size, Sort.by("name").ascending());
+        return service.findByCountryContaining(country, page, size, sortList, sortOrder.toString());
+    }
+    @GetMapping("/users/salary")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Employee> findBySalary(@RequestParam(required = false)Integer salary,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "2")int size,
+                                       @RequestParam(defaultValue = "") List<String> sortList,
+                                       @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
+    return service.findBySalary(salary, page, size, sortList, sortOrder.toString());
     }
 }

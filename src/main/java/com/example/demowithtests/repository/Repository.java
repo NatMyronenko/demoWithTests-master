@@ -1,15 +1,19 @@
 package com.example.demowithtests.repository;
 
 import com.example.demowithtests.domain.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
 //@Component
+
 public interface Repository extends JpaRepository<Employee, Integer> {
 
     Employee findByName(String name);
@@ -50,6 +54,10 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     @Query(value = "SELECT * FROM Users u WHERE phone LIKE ?% ", nativeQuery = true)
     List<Employee> getEmployeeByPhone(String phone);
 
+    @NotNull
+    Page<Employee> findAll(Pageable pageable);
+    Page<Employee> findByCountryContaining(String country, Pageable pageable);
 
+    Page<Employee> findBySalary(Integer salary, Pageable pageable);
 }
 

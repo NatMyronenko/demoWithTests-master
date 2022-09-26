@@ -5,8 +5,13 @@ import com.example.demowithtests.repository.Repository;
 import com.example.demowithtests.util.exeption.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -54,6 +59,7 @@ public class ServiceBean implements Service {
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
     }
+
     @Override
     public void removeById(Integer id) {
         //repository.deleteById(id);
@@ -102,5 +108,41 @@ public class ServiceBean implements Service {
         return employees;
     }
 
+    @Override
+    public Page<Employee> getAllWithPagination(Pageable pageable) {
+        log.debug("getAllWithPagination() - start: pageable = {}", pageable);
+        Page<Employee> list = repository.findAll(pageable);
+        log.debug("getAllWithPagination() - end: list = {}", list);
+        return list;
+    }
+
+    @Override
+    public Page<Employee> findByCountryContaining(String country, int page, int size, List<String> sortList, String sortOrder) {
+        // create Pageable object using the page, size and sort details
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        // fetch the page object by additionally passing pageable with the filters
+        return repository.findByCountryContaining(country, pageable);
+    }
+
+    @Override
+    public Page<Employee> findBySalary(Integer salary, int page, int size, List<String> sortList, String sortOrder){
+
+    Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+    return repository.findBySalary(salary,pageable);
+}
+
+    private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        Sort.Direction direction;
+        for (String sort : sortList) {
+            if (sortDirection != null) {
+                direction = Sort.Direction.fromString(sortDirection);
+            } else {
+                direction = Sort.Direction.DESC;
+            }
+            sorts.add(new Sort.Order(direction, sort));
+        }
+        return sorts;
+    }
 
 }
