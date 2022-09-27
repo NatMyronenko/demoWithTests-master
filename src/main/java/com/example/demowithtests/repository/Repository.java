@@ -58,6 +58,8 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     Page<Employee> findAll(Pageable pageable);
     Page<Employee> findByCountryContaining(String country, Pageable pageable);
 
+    Page<Employee> findByName(String name, Pageable pageable);
+
     Page<Employee> findBySalary(Integer salary, Pageable pageable);
 }
 

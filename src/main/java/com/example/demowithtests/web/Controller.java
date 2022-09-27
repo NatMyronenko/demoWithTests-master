@@ -158,7 +158,7 @@ public class Controller implements ResponseController {
         service.removeAll();
     }
 
-    @GetMapping("/users/p")
+    @GetMapping("/users/page")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> getPage(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size
@@ -166,6 +166,7 @@ public class Controller implements ResponseController {
         Pageable paging = PageRequest.of(page, size);
         return service.getAllWithPagination(paging);
     }
+
     @GetMapping("/users/country")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findByCountry(@RequestParam(required = false) String country,
@@ -177,13 +178,25 @@ public class Controller implements ResponseController {
         //Pageable paging = PageRequest.of(page, size, Sort.by("name").ascending());
         return service.findByCountryContaining(country, page, size, sortList, sortOrder.toString());
     }
+
     @GetMapping("/users/salary")
     @ResponseStatus(HttpStatus.OK)
-    public Page<Employee> findBySalary(@RequestParam(required = false)Integer salary,
+    public Page<Employee> findBySalary(@RequestParam(required = false) Integer salary,
                                        @RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "2")int size,
-                                       @RequestParam(defaultValue = "") List<String> sortList,
+                                       @RequestParam(defaultValue = "2") int size,
+                                      @RequestParam(defaultValue = "") List<String> sortList,
                                        @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
-    return service.findBySalary(salary, page, size, sortList, sortOrder.toString());
+       return service.findBySalary(salary, page, size, sortList, sortOrder.toString());
+
+    }
+
+    @GetMapping("/users/name")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Employee> findByName(@RequestParam(required = false) String name,
+                                     @RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "4") int size,
+                                      @RequestParam(defaultValue = "") List<String> sortList,
+                                     @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
+        return service.findByName(name, page, size, sortList, sortOrder.toString());
     }
 }
