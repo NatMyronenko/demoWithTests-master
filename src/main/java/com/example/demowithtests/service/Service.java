@@ -49,7 +49,56 @@ public interface Service {
      */
     Page<Employee> findByCountryContaining(String country, int page, int size, List<String> sortList, String sortOrder);
 
+   /**
+    * "Find all employees with a given salary, and return them in a pageable format."
+    *
+    * The first parameter is the salary to search for. The second and third parameters are the page number and page size,
+    * respectively. The fourth parameter is a list of sort fields, and the fifth parameter is the sort order
+    *
+    * @param salary The salary to search for
+    * @param page The page number to be retrieved.
+    * @param size The number of records per page.
+    * @param sortList A list of fields to sort by.
+    * @param sortOrder The sort order, either "asc" or "desc".
+    * @return A Page<Employee> object.
+    */
    Page<Employee> findBySalary(Integer salary, int page, int size, List<String> sortList, String sortOrder);
 
+    /**
+     * Find all employees with the given name, and return them in a page of size, sorted by the given sortList in the
+     * given sortOrder.
+     *
+     * @param name      The name of the employee to search for.
+     * @param page      The page number to retrieve.
+     * @param size      The number of records per page.
+     * @param sortList  A list of fields to sort by.
+     * @param sortOrder The sort order, either "asc" or "desc".
+     * @return Page<Employee>
+     */
     Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder);
+  //  Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder);
+
+    /**
+     * It returns a page of employees with a given email address.
+     *
+     * @param page The page number you want to retrieve.
+     * @param size The number of records to be returned in a page.
+     * @param sortList List of fields to sort by.
+     * @param sortOrder The sort order. Can be either "asc" or "desc".
+     * @return A Page<Employee> object is being returned.
+     */
+    Page<Employee> findEmployeeByEmail (int page, int size, List<String> sortList, String sortOrder);//2
+
+
+    /**
+     * Find all employees, sort them by the given list of fields, and return the page of results.
+     *
+     * @param page The page number to be retrieved.
+     * @param size The number of records to return per page.
+     * @param sortList A list of fields to sort by.
+     * @param sortOrder The sort order, either "asc" or "desc".
+     * @return A Page<Employee> object.
+     */
+    Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder);
+
 }
