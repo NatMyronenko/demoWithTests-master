@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -33,9 +34,7 @@ public class Controller implements ResponseController {
     private final ServiceBean serviceBean;//внедрили бин
     private final EmployeeMapper employeeMapper;
 
-
-    //Операция сохранения юзера в базу данных
-    // save dto
+    //Операция сохранения юзера в базу данных (saveDto)
     @Override
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,16 +43,15 @@ public class Controller implements ResponseController {
     }
 
 
-    //save 2 dto
+    //операция сохранения юзера в базу данных (save2Dto)
     @Override
     @PostMapping("/users/save")
     @ResponseStatus(HttpStatus.CREATED)
-
-
     public EmployeeSaveDto saveEmployee2(@RequestBody Employee employee) {
         return employeeMapper.employeeSave2Dto(service.create(employee));
     }
 
+    //получение списка всех юзеров
     @Override
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
@@ -61,8 +59,7 @@ public class Controller implements ResponseController {
         return service.getAll();
     }
 
-    //Получения юзера по id
-    //read dto
+    //Получения юзера по id (readDto)
     @Override
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -71,8 +68,7 @@ public class Controller implements ResponseController {
     }
 
 
-    //Получения юзера по id 2
-    //read 2 dto
+    //Получения юзера по id 2 (read2Dto)
     @Override
     @GetMapping("/users/dto/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -80,8 +76,7 @@ public class Controller implements ResponseController {
         return employeeMapper.employeeReadDto(service.getById(id));
     }
 
-    //Обновление юзера
-    //update dto
+    //Обновление юзера (updateDto)
     @Override
     @PatchMapping("/users/update/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -89,8 +84,7 @@ public class Controller implements ResponseController {
         return employeeMapper.employeeUpdateDto(service.updateById(id, employee));
     }
 
-    //Обновление юзера 2
-    //update 2 dto
+    //Обновление юзера 2 (update2Dto)
     @Override
     @PatchMapping("/users/update2/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -98,6 +92,7 @@ public class Controller implements ResponseController {
         return employeeMapper.employeeUpdateDto(service.updateById(id, employee));
     }
 
+    //получение списка юзеров по имени
     @Override
     @GetMapping(value = "/users", params = {"name"})
     @ResponseStatus(HttpStatus.OK)
@@ -105,6 +100,7 @@ public class Controller implements ResponseController {
         return service.get(name);
     }
 
+    //получение списка юзеров по зарплате
     @Override
     @GetMapping(value = "/users", params = {"salary"})
     @ResponseStatus(HttpStatus.OK)
@@ -112,14 +108,16 @@ public class Controller implements ResponseController {
         return service.getSalary(salary);
     }
 
+    //получения списка юзеров по номеру телефона
     @Override
     @GetMapping(value = "/users", params = {"phone"})
     @ResponseStatus(HttpStatus.OK)
     public List<Employee> getEmployeeWithPhone
-            (@RequestParam(value = "phone") String phone) {
+    (@RequestParam(value = "phone") String phone) {
         return service.getEmployeeWithPhone(phone);
     }
 
+    //получения списка юзеров по стране
     @Override
     @GetMapping(value = "/users", params = {"country"})
     @ResponseStatus(HttpStatus.OK)
@@ -128,6 +126,7 @@ public class Controller implements ResponseController {
 
     }
 
+    //получение списка юзеров по рабочим дням
     @Override
     @GetMapping(value = "/users", params = {"workdays"})
     @ResponseStatus(HttpStatus.OK)
@@ -136,7 +135,7 @@ public class Controller implements ResponseController {
 
     }
 
-    //Получение списка юзеров по коду телефона
+    //Получение списка юзеров по коду телефона 38
     @Override
     @GetMapping("/users/phone/{phone}")
     @ResponseStatus(HttpStatus.OK)
@@ -144,7 +143,7 @@ public class Controller implements ResponseController {
         return serviceBean.getEmployeeByPhone(phone);
     }
 
-    //Получение списка юзеров по коду телефона 2 вариант
+    //Получение списка юзеров по коду телефона 38 , 2 вариант
 //    @GetMapping(value = "/users/phone", params = {"phone"})
 //    @ResponseStatus(HttpStatus.OK)
 //    public List<Employee> getEmployeeByPhone(@RequestParam String phone) {
@@ -184,19 +183,42 @@ public class Controller implements ResponseController {
     public Page<Employee> findBySalary(@RequestParam(required = false) Integer salary,
                                        @RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "2") int size,
-                                      @RequestParam(defaultValue = "") List<String> sortList,
+                                       @RequestParam(defaultValue = "") List<String> sortList,
                                        @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
-       return service.findBySalary(salary, page, size, sortList, sortOrder.toString());
+        return service.findBySalary(salary, page, size, sortList, sortOrder.toString());
 
     }
 
-    @GetMapping("/users/name")
+        @GetMapping("/users/name")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findByName(@RequestParam(required = false) String name,
                                      @RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "4") int size,
                                       @RequestParam(defaultValue = "") List<String> sortList,
                                      @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
-        return service.findByName(name, page, size, sortList, sortOrder.toString());
+            return service.findByName(name, page, size, sortList, sortOrder.toString());
+
+        }
+
+    @GetMapping("/users/gmail")//4
+    @ResponseStatus(HttpStatus.OK)
+    public PageRequest findEmployeeByEmail(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size,
+            @RequestParam(defaultValue = "") List<String> sortList,
+            @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
+        Page<Employee> employee = service.findEmployeeByEmail(page, size, sortList, sortOrder.toString());
+        PageRequest pageRequest = (PageRequest) employee.stream().map(employeeMapper::employeeReadDto).collect(Collectors.toList());
+
+        //       List<EmployeeReadDto> employeeReadDto = employeeMapper.employeeGmail(employee);
+        return pageRequest;
+    }
+    @GetMapping("/users/all")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Employee> findAll(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "") List<String> sortList,
+                                  @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
+        return service.findAll(page, size, sortList, sortOrder.toString());
     }
 }

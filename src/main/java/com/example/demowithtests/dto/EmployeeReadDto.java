@@ -15,17 +15,19 @@ public class EmployeeReadDto {
     @Schema(description = "Name of an employee.", example = "Billy", required = true)
     public String name;
 
-    @NotNull(message = "Country may not be null")
-    @Size(min = 2, max = 32, message = "Country must be between 2 and 32 characters long")
-    @Schema(description = "Country of an employee.", example = "Greece", required = true)
-    public String country;
+//    @NotNull(message = "Country may not be null")
+//    @Size(min = 2, max = 32, message = "Country must be between 2 and 32 characters long")
+//    @Schema(description = "Country of an employee.", example = "Greece", required = true)
+//    public String country;
 
     @Email
     @NotNull
     public String email;
 
-    @NotNull
-    public String phone;
+    public Instant time =Instant.now();
+
+//    @NotNull
+//    public String phone;
 
     //todo: dfhgjkdfhg Jira - 5544
     //jira -менеджер задач

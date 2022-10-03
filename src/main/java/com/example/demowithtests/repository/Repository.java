@@ -27,8 +27,7 @@ public interface Repository extends JpaRepository<Employee, Integer> {
 
 
     //выдает список работников у которых отсутсвует телефон
-    @Query(value = "SELECT * FROM users where phone =?",
-            nativeQuery = true)
+    @Query(value = "SELECT * FROM users where phone =?", nativeQuery = true)
     List<Employee> findByPhoneNotNull(String phone);
 
     //выдает список работников по запросу страны
@@ -50,16 +49,24 @@ public interface Repository extends JpaRepository<Employee, Integer> {
 //    @Query(value = "SELECT u from Employee u where u.workdays=?1",nativeQuery = true)
 //    List<Employee> getEmployeeBySalaryGreaterThan(int salary);
 
-
     @Query(value = "SELECT * FROM Users u WHERE phone LIKE ?% ", nativeQuery = true)
     List<Employee> getEmployeeByPhone(String phone);
 
-    @NotNull
-    Page<Employee> findAll(Pageable pageable);
+
     Page<Employee> findByCountryContaining(String country, Pageable pageable);
 
+    // поиск пользователей по имени с использованием пагинации, фильтрации сортировки
     Page<Employee> findByName(String name, Pageable pageable);
 
     Page<Employee> findBySalary(Integer salary, Pageable pageable);
-}
 
+    @Query("SELECT users.name,users.email from Employee users where users.email LIKE '%@gmail'")
+    Page<Employee> findEmployeeByEmail(Pageable pageable);//1
+
+    // поиск всех пользователей с использованием пагинации, фильтрации сортировки
+    @NotNull
+    Page<Employee> findAll(Pageable pageable);
+
+
+
+}

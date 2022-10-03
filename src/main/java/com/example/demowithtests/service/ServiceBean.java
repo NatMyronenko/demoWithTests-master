@@ -136,6 +136,8 @@ public class ServiceBean implements Service {
         Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
         return repository.findByName(name, pageable);
     }
+
+
     private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
         List<Sort.Order> sorts = new ArrayList<>();
         Sort.Direction direction;
@@ -150,6 +152,16 @@ public class ServiceBean implements Service {
         return sorts;
     }
 
+    @Override//3
+    public Page<Employee> findEmployeeByEmail(int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return repository.findEmployeeByEmail(pageable);
+    }
+        @Override
+    public Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return repository.findAll(pageable);
+    }
 
 
 }
