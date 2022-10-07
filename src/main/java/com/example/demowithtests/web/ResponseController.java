@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ResponseController {
     @Operation(summary = "This is endpoint to add a new employee.", description = "Create request to add a new employee.", tags = {"Employee"})
@@ -152,6 +153,33 @@ public interface ResponseController {
             @ApiResponse(responseCode = "500", description = "Server ERROR!")})
     void removeAllUsers();
 
+    @Operation(summary = "This is endpoint Find all the short names in the database" +
+            "and return a list of short names", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    List<String> getAllLongNames();
 
+    @Operation(summary = "This is endpoint Find all the short names in the database" +
+            "and return a list of short names", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    Optional<Integer> findEmployeeByWorkDays();
+    @Operation(summary = "This is endpoint Find all the short names in the database" +
+            "and return a list of short names", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    List<String> findAllDifCountries();
 }
 

@@ -1,10 +1,12 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeReadDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Service {
 
@@ -101,4 +103,14 @@ public interface Service {
      */
     Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder);
 
+    List<EmployeeReadDto> getUsers();
+    /**
+     * Find all the names that are longer than 5 characters.
+     *
+     * @return A list of strings.
+     */
+    List<String> findLongNames();
+
+    Optional<Integer> findMaxWorkDays();
+    List<String> findDifferentCountries();
 }

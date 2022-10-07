@@ -33,4 +33,7 @@ public class EmployeeReadDto {
     //jira -менеджер задач
     //ставит текущую дату вызова
     public Date date = Date.from(Instant.now());
+
+    public EmployeeReadDto(String name, String email) {
+    }
 }

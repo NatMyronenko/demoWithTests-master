@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -221,4 +222,26 @@ public class Controller implements ResponseController {
                                   @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
         return service.findAll(page, size, sortList, sortOrder.toString());
     }
+//--------------------streans-----------
+    @GetMapping("/name2")
+    public List<EmployeeReadDto> getUsers() {
+        return service.getUsers();
+    }
+    @GetMapping("/users/names/long")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllLongNames() {
+        return service.findLongNames();
+    }
+    @GetMapping("/users/maxdays")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Integer> findEmployeeByWorkDays(){
+        return service.findMaxWorkDays();
+    }
+
+    @GetMapping("/users/difcountry")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> findAllDifCountries(){
+        return service.findDifferentCountries();
+    }
+
 }
