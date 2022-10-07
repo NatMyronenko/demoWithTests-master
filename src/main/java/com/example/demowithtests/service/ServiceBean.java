@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @org.springframework.stereotype.Service //кандидат в бины
 public class ServiceBean implements Service {
-
+//here we injected beans
     private final Repository repository;
 
 
@@ -104,7 +104,7 @@ public class ServiceBean implements Service {
         return repository.
                 getEmployeeBySalaryGreaterThan(workdays);
     }
-
+//-----------------method with log----------
     @Override
     public Page<Employee> getAllWithPagination(Pageable pageable) {
         log.debug("getAllWithPagination() - start: pageable = {}", pageable);
@@ -112,7 +112,7 @@ public class ServiceBean implements Service {
         log.debug("getAllWithPagination() - end: list = {}", list);
         return list;
     }
-
+//----------methods with pagination,filters and sorts--------------
     @Override
     public Page<Employee> findByCountryContaining(String country, int page, int size, List<String> sortList, String sortOrder) {
         // create Pageable object using the page, size and sort details
