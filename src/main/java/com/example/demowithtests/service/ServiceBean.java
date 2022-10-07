@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.repository.Repository;
 import com.example.demowithtests.util.exeption.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,10 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -102,13 +106,6 @@ public class ServiceBean implements Service {
     }
 
     @Override
-    public List<Employee> getEmployeeByPhone(String phone) {
-        List<Employee> employees = repository.getEmployeeByPhone(phone);
-        employees.stream().forEach(e -> System.err.println(e.getName() + "ДОброго вечора,ми з Украины"));
-        return employees;
-    }
-
-    @Override
     public Page<Employee> getAllWithPagination(Pageable pageable) {
         log.debug("getAllWithPagination() - start: pageable = {}", pageable);
         Page<Employee> list = repository.findAll(pageable);
@@ -125,11 +122,12 @@ public class ServiceBean implements Service {
     }
 
     @Override
-    public Page<Employee> findBySalary(Integer salary, int page, int size, List<String> sortList, String sortOrder){
+    public Page<Employee> findBySalary(Integer salary, int page, int size, List<String> sortList, String sortOrder) {
 
-    Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
-    return repository.findBySalary(salary,pageable);
-}
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return repository.findBySalary(salary, pageable);
+    }
+
     @Override
     public Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder) {
 
@@ -157,10 +155,62 @@ public class ServiceBean implements Service {
         Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
         return repository.findEmployeeByEmail(pageable);
     }
-        @Override
+
+    @Override
     public Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
         return repository.findAll(pageable);
+    }
+
+    //-----------------STREAMS--------------
+    @Override
+    public List<EmployeeReadDto> getUsers() {
+        List<Employee> users = repository.findAll();
+        return users.stream()
+                .map(employee -> new EmployeeReadDto(employee.getName(), employee.getEmail()))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<Employee> getEmployeeByPhone(String phone) {
+        List<Employee> employees = repository.getEmployeeByPhone(phone);
+        employees.stream().forEach(e -> System.err.println(e.getName() + "ДОброго вечора,ми з Украины"));
+        return employees;
+    }
+    //get all names with stream from database where name = 5 symbols
+    @Override
+    public List<String> findLongNames() {
+        var shortNames = repository.findAll();
+        return shortNames.stream()
+                .map(n -> n.getName())
+                .filter(n -> n.length() == 5)
+                .collect(Collectors.toList());
+    }
+
+//find employee with max work days from database
+    @Override
+    public Optional<Integer> findMaxWorkDays() {
+        var employeeList = repository.findAll();
+
+        var workDays = employeeList.stream()
+                .map(Employee::getWorkdays)
+                .collect(Collectors.toList());
+        var opt = workDays
+                .stream()
+                .min(Comparator.reverseOrder());
+
+        return opt;
+    }
+//show list with non-duplicate countries
+    @Override
+    public List<String> findDifferentCountries() {
+        var differentCountries = repository.findAll();
+        return differentCountries.stream()
+                .map(c->c.getCountry())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
 
