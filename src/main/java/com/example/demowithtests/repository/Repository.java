@@ -15,7 +15,7 @@ import java.util.List;
 //@Component
 
 public interface Repository extends JpaRepository<Employee, Integer> {
-
+//here created all methods for sql and jpql requests
     Employee findByName(String name);
 
     @Query(value = "SELECT * FROM users WHERE name=? ", nativeQuery = true)

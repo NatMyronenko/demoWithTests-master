@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Date;
+//dto let as to work with all data of employee
 
 public class EmployeeRead2Dto {
     @NotNull(message = "Name may not be null")
