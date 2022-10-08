@@ -9,22 +9,22 @@ import java.time.Instant;
 import java.util.Date;
 
 public class EmployeeReadDto {
-//response in postman
+    //response in postman
     @NotNull(message = "Name may not be null")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long")
     @Schema(description = "Name of an employee.", example = "Billy", required = true)
     public String name;
 
-//    @NotNull(message = "Country may not be null")
-//    @Size(min = 2, max = 32, message = "Country must be between 2 and 32 characters long")
-//    @Schema(description = "Country of an employee.", example = "Greece", required = true)
-//    public String country;
+    @NotNull(message = "Country may not be null")
+    @Size(min = 2, max = 32, message = "Country must be between 2 and 32 characters long")
+    @Schema(description = "Country of an employee.", example = "Greece", required = true)
+    public String country;
 
     @Email
     @NotNull
     public String email;
 
-    public Instant time =Instant.now();
+    public Instant time = Instant.now();
 
 //    @NotNull
 //    public String phone;

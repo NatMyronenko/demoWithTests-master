@@ -29,4 +29,8 @@ public class EmployeeSaveDto {
     @NotNull
     @Schema(description = "Phone of an employee.", example = "44-555-55",required = true)
     public String phone;
+
+    public CardSalaryDTO cardSalaryDTO;
+ //   public TaxCodeDto taxCodeDto;
+
 }
