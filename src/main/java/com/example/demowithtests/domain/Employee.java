@@ -14,6 +14,7 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
+@Data
 public class Employee {
 
     @Id
@@ -24,12 +25,13 @@ public class Employee {
     private String country;
     private String email;
     private String phone;
-  //  private String address;
+    private String address;
     private Integer salary;
     private Integer workdays;
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private CardsSalary card;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tax_id")
     private  TaxCode taxCode;

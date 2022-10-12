@@ -53,9 +53,9 @@ public class ServiceBean implements Service {
                 .map(entity -> {
                     entity.setName(employee.getName());
                     entity.setEmail(employee.getEmail());
-                 //   entity.setCountry(employee.getCountry());
+                    entity.setCountry(employee.getCountry());
                     entity.setPhone(employee.getPhone());
-                 //   entity.setAddress(employee.getAddress());
+                   entity.setAddress(employee.getAddress());
                     entity.setSalary(employee.getSalary());
                     entity.setWorkdays(employee.getWorkdays());
 
