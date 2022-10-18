@@ -26,10 +26,16 @@ logging:
     console: "%d %-5level %logger : %msg%n"
   level:
     org.springframework: info
-
+    org.hibernate: debug
 
     # Server configuration
 server:
   port: 8089 #set your port
+  # Swagger configuration
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html # swagger-ui custom path
+    api-docs:
+      path: /v3/api-docs.yaml
 
 
