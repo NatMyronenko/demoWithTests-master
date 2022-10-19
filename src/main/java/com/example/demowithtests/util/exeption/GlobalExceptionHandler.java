@@ -37,3 +37,4 @@ public class GlobalExceptionHandler {
         private String message;
     }
 }
+//TODO exeption unavtorized and add to service bean where get_by_id()
