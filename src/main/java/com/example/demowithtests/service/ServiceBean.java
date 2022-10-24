@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Person_password;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.repository.Repository;
 import com.example.demowithtests.util.exeption.ResourceWasDeletedException;
@@ -212,6 +213,11 @@ public class ServiceBean implements Service {
                 .sorted()
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public Optional<Person_password> findByUsername(String username) {
+        return Optional.empty();
     }
 
 

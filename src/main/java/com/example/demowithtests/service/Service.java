@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Person_password;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -113,4 +114,5 @@ public interface Service {
 
     Optional<Integer> findMaxWorkDays();
     List<String> findDifferentCountries();
+    Optional<Person_password> findByUsername(String username);
 }

@@ -190,16 +190,16 @@ public class Controller implements ResponseController {
 
     }
 
-        @GetMapping("/users/name")
+    @GetMapping("/users/name")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findByName(@RequestParam(required = false) String name,
                                      @RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "4") int size,
-                                      @RequestParam(defaultValue = "") List<String> sortList,
+                                     @RequestParam(defaultValue = "") List<String> sortList,
                                      @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
-            return service.findByName(name, page, size, sortList, sortOrder.toString());
+        return service.findByName(name, page, size, sortList, sortOrder.toString());
 
-        }
+    }
 
     @GetMapping("/users/gmail")//4
     @ResponseStatus(HttpStatus.OK)
@@ -214,6 +214,7 @@ public class Controller implements ResponseController {
         //       List<EmployeeReadDto> employeeReadDto = employeeMapper.employeeGmail(employee);
         return pageRequest;
     }
+
     @GetMapping("/users/all")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findAll(@RequestParam(defaultValue = "0") int page,
@@ -222,26 +223,39 @@ public class Controller implements ResponseController {
                                   @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
         return service.findAll(page, size, sortList, sortOrder.toString());
     }
-//--------------------streans-----------
+
+    //--------------------streans-----------
     @GetMapping("/name2")
     public List<EmployeeReadDto> getUsers() {
         return service.getUsers();
     }
+
     @GetMapping("/users/names/long")
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllLongNames() {
         return service.findLongNames();
     }
+
     @GetMapping("/users/maxdays")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Integer> findEmployeeByWorkDays(){
+    public Optional<Integer> findEmployeeByWorkDays() {
         return service.findMaxWorkDays();
     }
 
     @GetMapping("/users/difcountry")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> findAllDifCountries(){
+    public List<String> findAllDifCountries() {
         return service.findDifferentCountries();
     }
-//TODO add 2 new endponits
+
+    //TODO add 2 new endponits
+    @GetMapping("/login1")
+    public String loginPage1() {
+        return ("/api/login1");
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return ("/api/login");
+    }
 }

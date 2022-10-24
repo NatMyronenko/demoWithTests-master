@@ -39,4 +39,10 @@ public class Employee {
     @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "id_employee")
     private Set<Addresses> addresses = new HashSet<>();
+
+    @OneToOne(cascade =  CascadeType.ALL)
+    @JoinColumn(name = "person_password_id")
+    private Person_password person_password;
+
+
 }
