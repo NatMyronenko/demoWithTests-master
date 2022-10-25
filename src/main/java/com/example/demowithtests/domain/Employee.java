@@ -1,7 +1,6 @@
 package com.example.demowithtests.domain;
 
 import lombok.*;
-import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -39,4 +38,10 @@ public class Employee {
     @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "id_employee")
     private Set<Addresses> addresses = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user")
+    private User user;
+
+
 }

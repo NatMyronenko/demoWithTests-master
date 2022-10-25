@@ -1,6 +1,7 @@
 package com.example.demowithtests.repository;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,7 @@ import java.util.List;
 //@Component
 
 public interface Repository extends JpaRepository<Employee, Integer> {
-//here created all methods for sql and jpql requests
+    //here created all methods for sql and jpql requests
     Employee findByName(String name);
 
     @Query(value = "SELECT * FROM users WHERE name=? ", nativeQuery = true)

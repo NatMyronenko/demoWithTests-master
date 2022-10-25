@@ -244,4 +244,9 @@ public class Controller implements ResponseController {
         return service.findDifferentCountries();
     }
 //TODO add 2 new endponits
+
+    @GetMapping("/api/hello")
+    public String hello(){
+        return "Highload";
+    }
 }

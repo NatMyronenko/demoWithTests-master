@@ -24,9 +24,6 @@ public class Addresses {
     private String city;
     @Column(name = "street")
     private String street;
-//-------------
-//    @ManyToOne
-//    @JoinColumn(name = "id_employee",referencedColumnName = "id")
-//    private Employee addresses;
+
 
 }

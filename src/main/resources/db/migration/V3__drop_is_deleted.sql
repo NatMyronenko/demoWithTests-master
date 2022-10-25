@@ -1,1 +1,0 @@
--- alter table users drop id_deleted;
