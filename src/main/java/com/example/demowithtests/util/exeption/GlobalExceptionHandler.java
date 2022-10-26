@@ -24,6 +24,10 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<MyGlobalExceptionHandler> handleDeleteException() {
         return new ResponseEntity<>(new MyGlobalExceptionHandler("This user was deleted"), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(Unauthorized.class)
+    protected ResponseEntity<MyGlobalExceptionHandler> unauthorizedException() {
+        return new ResponseEntity<>(new MyGlobalExceptionHandler("You were unauthorized"), HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {

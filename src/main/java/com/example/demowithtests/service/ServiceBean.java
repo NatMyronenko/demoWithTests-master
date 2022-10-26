@@ -12,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -40,6 +37,7 @@ public class ServiceBean implements Service {
     public Employee getById(Integer id) {
         Employee employee = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+        //.orElseThrow(Unauthorized::new);
         //.orElseThrow(ResourceNotFoundException::new);
          /*if (employee.getIsDeleted()) {
             throw new EntityNotFoundException("Employee was deleted with id = " + id);
@@ -213,6 +211,7 @@ public class ServiceBean implements Service {
                 .collect(Collectors.toList());
 
     }
+    //----------security---------
 
 
 }

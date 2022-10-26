@@ -28,6 +28,7 @@ public class Employee {
     private String address;
     private Integer salary;
     private Integer workdays;
+    private Integer password;
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private CardsSalary card;

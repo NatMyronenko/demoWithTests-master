@@ -67,8 +67,6 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     @NotNull
     Page<Employee> findAll(Pageable pageable);
 
-    List<Employee> findAll();
-
 
 
 }

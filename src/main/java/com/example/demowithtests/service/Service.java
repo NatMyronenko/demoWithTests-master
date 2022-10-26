@@ -113,4 +113,8 @@ public interface Service {
 
     Optional<Integer> findMaxWorkDays();
     List<String> findDifferentCountries();
+
+
+    //----------security---------
+
 }
