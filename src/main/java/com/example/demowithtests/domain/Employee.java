@@ -28,6 +28,8 @@ public class Employee {
     private String address;
     private Integer salary;
     private Integer workdays;
+
+
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private CardsSalary card;
@@ -39,4 +41,7 @@ public class Employee {
     @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "id_employee")
     private Set<Addresses> addresses = new HashSet<>();
+
+
+
 }

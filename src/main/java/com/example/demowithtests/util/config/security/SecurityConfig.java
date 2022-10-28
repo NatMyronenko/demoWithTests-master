@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    // TODO: 18-Oct-22 Secure the endpoins with HTTP Basic authentication in controller
+    // TODO: 18-Oct-22 Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 

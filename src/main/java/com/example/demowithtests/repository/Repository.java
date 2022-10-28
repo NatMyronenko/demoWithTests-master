@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Repository
 //@Component
@@ -70,5 +71,5 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     List<Employee> findAll();
 
 
-
+    Optional<Employee> findByUsername(String username);
 }
