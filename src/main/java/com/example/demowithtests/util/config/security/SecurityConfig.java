@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
                 .and()
                 .csrf().disable()
+
                 .formLogin().disable();
     }
 }
