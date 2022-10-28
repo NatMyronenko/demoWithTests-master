@@ -181,5 +181,11 @@ public interface ResponseController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     List<String> findAllDifCountries();
+
+    //    public String registrationPage(@ModelAttribute("employee")Employee employee){
+    //        return service.create();
+    //    }
+
+
 }
 

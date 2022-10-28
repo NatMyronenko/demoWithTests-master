@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Slf4j
 @org.springframework.stereotype.Service //кандидат в бины
-public class ServiceBean implements Service {
+public class ServiceEmployee implements Service {
 //here we injected beans
     private final Repository repository;
 
@@ -212,6 +214,15 @@ public class ServiceBean implements Service {
                 .sorted()
                 .collect(Collectors.toList());
 
+    }
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Optional<Employee> person = repository.findByUsername(s);
+
+        if (person.isEmpty())
+            throw new UsernameNotFoundException("User not found");
+
+        return new EmployeeDetails(person.get());
     }
 
 

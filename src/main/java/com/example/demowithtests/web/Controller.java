@@ -2,12 +2,10 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.*;
+import com.example.demowithtests.service.RegistrationService;
 import com.example.demowithtests.service.Service;
-import com.example.demowithtests.service.ServiceBean;
+import com.example.demowithtests.service.ServiceEmployee;
 import com.example.demowithtests.util.config.mapStrukt.EmployeeMapper;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +28,10 @@ import java.util.stream.Collectors;
 @Tag(name = "Employee", description = "Employee API")
 public class Controller implements ResponseController {
 
+    private final RegistrationService registrationService;
 
     private final Service service;
-    private final ServiceBean serviceBean;//внедрили бин
+    private final ServiceEmployee serviceBean;//внедрили бин
     private final EmployeeMapper employeeMapper;
 
     //Операция сохранения юзера в базу данных (saveDto)
@@ -190,16 +189,16 @@ public class Controller implements ResponseController {
 
     }
 
-        @GetMapping("/users/name")
+    @GetMapping("/users/name")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findByName(@RequestParam(required = false) String name,
                                      @RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "4") int size,
-                                      @RequestParam(defaultValue = "") List<String> sortList,
+                                     @RequestParam(defaultValue = "") List<String> sortList,
                                      @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
-            return service.findByName(name, page, size, sortList, sortOrder.toString());
+        return service.findByName(name, page, size, sortList, sortOrder.toString());
 
-        }
+    }
 
     @GetMapping("/users/gmail")//4
     @ResponseStatus(HttpStatus.OK)
@@ -214,6 +213,7 @@ public class Controller implements ResponseController {
         //       List<EmployeeReadDto> employeeReadDto = employeeMapper.employeeGmail(employee);
         return pageRequest;
     }
+
     @GetMapping("/users/all")
     @ResponseStatus(HttpStatus.OK)
     public Page<Employee> findAll(@RequestParam(defaultValue = "0") int page,
@@ -222,26 +222,41 @@ public class Controller implements ResponseController {
                                   @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
         return service.findAll(page, size, sortList, sortOrder.toString());
     }
-//--------------------streans-----------
+
+    //--------------------streans-----------
     @GetMapping("/name2")
     public List<EmployeeReadDto> getUsers() {
         return service.getUsers();
     }
+
     @GetMapping("/users/names/long")
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllLongNames() {
         return service.findLongNames();
     }
+
     @GetMapping("/users/maxdays")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Integer> findEmployeeByWorkDays(){
+    public Optional<Integer> findEmployeeByWorkDays() {
         return service.findMaxWorkDays();
     }
 
     @GetMapping("/users/difcountry")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> findAllDifCountries(){
+    public List<String> findAllDifCountries() {
         return service.findDifferentCountries();
     }
-//TODO add 2 new endponits
+
+
+    //----security---
+
+    //    public String registrationPage(@ModelAttribute("employee")Employee employee){
+//        return service.create();
+//    }
+    @PostMapping("/registration")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee registrationEmployee(@ModelAttribute Employee employee) {
+      registrationService.register(employee);
+      return employee;
+    }
 }

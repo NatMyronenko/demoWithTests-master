@@ -36,9 +36,7 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private CardsSalary card;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tax_id")
-    private  TaxCode taxCode;
+
 
     @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "id_employee")

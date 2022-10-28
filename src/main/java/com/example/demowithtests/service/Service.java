@@ -4,6 +4,8 @@ import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -115,6 +117,7 @@ public interface Service {
     List<String> findDifferentCountries();
 
 
-    }
+    UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+}
 
 
