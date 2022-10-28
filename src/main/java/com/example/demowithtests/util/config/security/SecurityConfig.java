@@ -23,13 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(employeeDetailsService);
-        auth.inMemoryAuthentication()
-
-                //.withUser("user").password("{noop}password").roles("USER")
-                // .and()
-                .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
     }
-
+    //для шифрования пароля,но в данном случае он пока не шифруеться
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
