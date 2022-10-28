@@ -28,6 +28,8 @@ public class Employee {
     private String address;
     private Integer salary;
     private Integer workdays;
+    private String username;
+    private String password;
 
 
     @OneToOne (cascade = CascadeType.ALL)

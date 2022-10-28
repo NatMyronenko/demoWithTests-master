@@ -1,41 +1,40 @@
 package com.example.demowithtests.util.config.security;
-import org.springframework.http.HttpMethod;
+
+import com.example.demowithtests.service.EmployeeDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // TODO: 18-Oct-22 Create 2 users for demo
+    private final EmployeeDetailsService employeeDetailsService;
+
+    @Autowired
+    public SecurityConfig(EmployeeDetailsService employeeDetailsService) {
+        this.employeeDetailsService = employeeDetailsService;
+    }
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-
+        auth.userDetailsService(employeeDetailsService);
         auth.inMemoryAuthentication()
 
-                .withUser("user").password("{noop}password").roles("USER")
-                .and()
+                //.withUser("user").password("{noop}password").roles("USER")
+                // .and()
                 .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
-
     }
 
-    // TODO: 18-Oct-22 Secure the endpoins with HTTP Basic authentication
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http
-                //HTTP Basic authentication
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/users/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/users/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/api/users/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
-                .and()
-                .csrf().disable()
-                .formLogin().disable();
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
+
+
 }
+
